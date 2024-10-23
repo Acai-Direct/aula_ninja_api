@@ -22,14 +22,9 @@ def get_usuario(request, cadastro_id: int):
 att_usuario_router = Router()
 @att_usuario_router.put("/attUsuario/{cadastro_id}")
 def attUsuario(request, cadastro_id: int, cadastro_data: UsuarioSaida):
-    cadastro_data = get_object_or_404(ModelCadastro, id = cadastro_id)
+    cadastro = get_object_or_404(ModelCadastro, id = cadastro_id)
     for attr, value in cadastro_data.dict().items():
-        setattr(cadastro_data, attr, value)
-    # ModelCadastro.nome = cadastro_data.nome
-    # ModelCadastro.sobrenome = cadastro_data.sobrenome
-    # ModelCadastro.email = cadastro_data.email
-    # ModelCadastro.senha = cadastro_data.senha
-    # ModelCadastro.telefone = cadastro_data.telefone
-    cadastro_data.save()
+        setattr(cadastro, attr, value)
+    cadastro.save()
     return {"success": True}
     

@@ -3,7 +3,7 @@ from .models import Cadastro
 from typing import Dict,List
 
 class UsuarioSaida(Schema):
-    id: int
+    #id: int
     nome: str
     sobrenome: str
     email: str
