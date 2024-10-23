@@ -3,7 +3,7 @@ from .models import Cadastro
 from typing import Dict,List
 
 class UsuarioSaida(Schema):
-    #id: int
+    id: int
     nome: str
     sobrenome: str
     email: str
@@ -15,4 +15,5 @@ class Cadastro(ModelSchema):
    class Config:
        model = Cadastro
        model_fields = "__all__"
+       extra = "forbid"
 
