@@ -18,6 +18,14 @@ def get_usuario(request, cadastro_id: int):
     usuario = get_object_or_404(ModelCadastro, id = cadastro_id)
     return usuario
 
+all_usuario_router = Router()
+
+@all_usuario_router.get("/allUsuario/{cadastro_all}", response= list[UsuarioSaida])
+def all_usuario(request, cadastro_all: str):
+    if cadastro_all == "all" or cadastro_all =="todos":
+        usuario = ModelCadastro.objects.all()
+    return usuario
+    
 att_usuario_router = Router()
 
 @att_usuario_router.put("/attUsuario/{cadastro_id}")

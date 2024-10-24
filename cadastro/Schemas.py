@@ -3,7 +3,7 @@ from .models import Cadastro
 from typing import Dict,List
 
 class UsuarioSaida(Schema):
-    id: int
+    #id: int
     nome: str
     sobrenome: str
     email: str
@@ -12,8 +12,10 @@ class UsuarioSaida(Schema):
     
 class Cadastro(ModelSchema):
    #localidade: List[str]= [] #TODO este e um novo campo que não funcina
-   class Config:
+   class Config(Schema.Config):
        model = Cadastro
        model_fields = "__all__"
        extra = "forbid"
+       str_strip_whitespace = True # retira os espaços antes e depois dos nomes
+
 
