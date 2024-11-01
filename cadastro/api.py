@@ -2,14 +2,26 @@ from ninja import Router
 from .Schemas import Cadastro, UsuarioSaida
 from .models import Cadastro as ModelCadastro
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.hashers import make_password
+from django.core.exceptions import ValidationError
 
 cadastro_router = Router()
 
-@cadastro_router.post("/cadastrouser")
+@cadastro_router.post("/cadastrouser", response={200: dict, 400: dict, 500: dict})
 def cadastroUser(request, cadastro: Cadastro):
-    usuario = ModelCadastro.objects.create(**cadastro.dict())
-    usuario = Cadastro.from_orm(cadastro).dict()
-    return usuario
+    # usuario = ModelCadastro.objects.create(**cadastro.dict())
+    # usuario = Cadastro.from_orm(cadastro).dict()
+    cadastro = ModelCadastro(**cadastro.dict())
+    cadastro.senha = make_password(cadastro.senha)
+    try:
+        cadastro.full_clean()
+        cadastro.save()
+    except ValidationError as e:
+        return 400, {"errors": e.message_dict}
+    except Exception as e:
+        return 500, {"errors":"Erro interno do servidor, contate um administrador"}    
+    
+    return {"success":True}
 
 get_usuario_router = Router()
 
